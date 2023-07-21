@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<meta name="viewport"
+			content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="./css/element-ui.css">
+		<script src="./js/vue.js"></script>
+		<script src="./js/element-ui.js"></script>
+		<script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+		<script src="js/echarts.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+		<!-- <script> 
+			document.querySelector('#body1').html('...')
+		</script> -->
+		<style>
+			[v-cloak] {
+				display: none !important;
+			}
+		</style>
+	</head>
+	<body style="background-color: rgb(5, 34, 63); ">
+		<div style="width: 100%;height: 100vh;"> 
+
+
+			<div id="app" style="border: none;width: 100%;height: 100%;" v-cloak>
+				<div class="header">
+					<div class="logo">
+						<img src="./fonts/baikeLogo.png" mode="widthFix" width="200px" />
+					</div>
+					<div style="margin-top: 10px;"> {{datetime}}</div>
+
+				</div>
+				<div style="height: 88%;width: 100%;position: absolute;top:-10px">
+					<div class="mui-slider">
+						<div class="mui-slider-group mui-slider-loop" style="height: 600px;width: 100%;">
+							<!--支持循环，需要重复图片节点-->
+							<div class="mui-slider-item">
+								<div class="allBorder">
+									<div class="leftBorder">
+										<div>
+											<img src='fonts/2.gif' style="width: 270px;" />
+										</div>
+										<div id="main" style="width: 270px;height:270px;"></div>
+									</div>
+									<div class="rightBorder">
+										<div style="font-size:28px;font-weight: bold;width: 100%;text-align:center;">
+											加&nbsp;&nbsp;&nbsp;工&nbsp;&nbsp;&nbsp;任&nbsp;&nbsp;&nbsp;务&nbsp;&nbsp;&nbsp;达&nbsp;&nbsp;&nbsp;成&nbsp;&nbsp;&nbsp;率&nbsp;&nbsp;&nbsp;汇&nbsp;&nbsp;&nbsp;总&nbsp;&nbsp;&nbsp;表
+										</div>
+										<el-table ref="table12" :data="record4" height="100%" style="width: 100%;"
+											:stripe=false :border=false
+											:header-cell-style="{'text-align':'center','color':'white','font-size':'18px','font-weight':'blod'}"
+											:cell-style="{'text-align':'center','font-size':'16px','color':'white'}">
+											<el-table-column prop="OrderNum" label="操作员" width="100">
+											</el-table-column>
+											<el-table-column prop="PlanOutDate" label="日期" width="110">
+											</el-table-column>
+											<el-table-column prop="Machine" label="工作类型" width="130">
+											</el-table-column>
+											<el-table-column prop="Qty" label="工作总工时" width="130">
+											</el-table-column>
+											<el-table-column prop="MachineNum" label="完成标准工时" width="150">
+											</el-table-column>
+											<el-table-column prop="CompleteState" label="达成率" width="100">
+											</el-table-column>
+										</el-table>
+									</div>
+								</div>
+							</div>
+
+
+
+							<div class="mui-slider-item">
+								<div class="outBorder" v-if="fourBorder">
+									<div class="inBorder" id="idBorder1">
+										<div style="font-size:28px;font-weight: bold;width: 100%;text-align:center;">
+											加&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;报&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;表
+										</div>
+										<el-table ref="table2" :data="record1" height="100%" style="width: 100%;"
+											:stripe=false :border=false
+											:header-cell-style="{'text-align':'center','color':'white','font-size':'18px'}"
+											:cell-style="{'text-align':'center','font-size':'16px','color':'white'}">
+											<!-- <template slot="empty">
+												<p>{{dataText}}</p>
+											</template> -->
+											<el-table-column prop="OrderNum" label="制令单号">
+											</el-table-column>
+											<el-table-column prop="ShortChar02" label="机床名称">
+											</el-table-column>
+											<el-table-column prop="ShortChar03" label="工单号">
+											</el-table-column>
+											<el-table-column prop="OrderDate" label="物料编码">
+											</el-table-column>
+											<el-table-column prop="Machine" label="物料描述">
+											</el-table-column>
+											<el-table-column prop="Qty" label="排产件数">
+											</el-table-column>
+											<el-table-column prop="PlanDate" label="单件标准工时">
+											</el-table-column>
+											<el-table-column prop="CompletePre" label="今日完成件数">
+											</el-table-column>
+											<el-table-column prop="CompleteState" label="操作员">
+											</el-table-column>
+										</el-table>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="mui-slider-item">
+								<div class="outBorder" v-if="fourBorder">
+									<div class="inBorder" id="idBorder2">
+										<div style="font-size:28px;font-weight: bold;width: 100%;text-align:center;">
+											加&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;任&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;安&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;排&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;表
+										</div>
+										<el-table ref="table3" :data="record2" height="100%" style="width: 100%;"
+											:stripe=false :border=false
+											:header-cell-style="{'text-align':'center','color':'white','font-size':'18px'}"
+											:cell-style="{'text-align':'center','font-size':'16px','color':'white'}">
+											<el-table-column prop="OrderNum" label="制令单号">
+											</el-table-column>
+											<el-table-column prop="Machine" label="机床名称">
+											</el-table-column>
+											<el-table-column prop="DueDate" label="工单号">
+											</el-table-column>
+											<el-table-column prop="PlanPre" label="物料编码">
+											</el-table-column>
+											<el-table-column prop="WorkDesc" label="物料描述">
+											</el-table-column>
+											<el-table-column prop="Qty" label="排产件数">
+											</el-table-column>
+											<el-table-column prop="OrderDate" label="单件标准工序工时">
+											</el-table-column>
+											<el-table-column prop="CompletePre" label="操作员">
+											</el-table-column>
+										</el-table>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="mui-slider-item">
+								<div class="allBorder">
+									<div class="leftBorder">
+										<div>
+											<img src='fonts/2.gif' style="width: 270px;" />
+										</div>
+										<div id="main2" style="width: 270px;height:270px;"></div>
+									</div>
+									<div class="rightBorder">
+										<div style="font-size:28px;font-weight: bold;width: 100%;text-align:center;">
+											加&nbsp;&nbsp;&nbsp;工&nbsp;&nbsp;&nbsp;任&nbsp;&nbsp;&nbsp;务&nbsp;&nbsp;&nbsp;达&nbsp;&nbsp;&nbsp;成&nbsp;&nbsp;&nbsp;率&nbsp;&nbsp;&nbsp;汇&nbsp;&nbsp;&nbsp;总&nbsp;&nbsp;&nbsp;表
+										</div>
+										<el-table ref="table4" :data="record4" height="100%" style="width: 100%;"
+											:stripe=false :border=false
+											:header-cell-style="{'text-align':'center','color':'white','font-size':'18px','font-weight':'blod'}"
+											:cell-style="{'text-align':'center','font-size':'16px','color':'white'}">
+											<el-table-column prop="OrderNum" label="操作员" width="100">
+											</el-table-column>
+											<el-table-column prop="PlanOutDate" label="日期" width="110">
+											</el-table-column>
+											<el-table-column prop="Machine" label="工作类型" width="130">
+											</el-table-column>
+											<el-table-column prop="Qty" label="工作总工时" width="130">
+											</el-table-column>
+											<el-table-column prop="MachineNum" label="完成标准工时" width="150">
+											</el-table-column>
+											<el-table-column prop="CompleteState" label="达成率" width="100">
+											</el-table-column>
+										</el-table>
+									</div>
+								</div>
+							</div>
+
+							<!--支持循环，需要重复图片节点-->
+							<div class="mui-slider-item">
+								<div class="outBorder" v-if="fourBorder">
+									<div class="inBorder" id="idBorder1">
+										<div style="font-size:28px;font-weight: bold;width: 100%;text-align:center;">
+											加&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;报&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;表
+										</div>
+										<el-table ref="table5" :data="record1" height="100%" style="width: 100%;"
+											:stripe=false :border=false
+											:header-cell-style="{'text-align':'center','color':'white','font-size':'18px'}"
+											:cell-style="{'text-align':'center','font-size':'16px','color':'white'}">
+											<!-- <template slot="empty">
+											<p>{{dataText}}</p>
+										</template> -->
+											<el-table-column prop="OrderNum" label="制令单号">
+											</el-table-column>
+											<el-table-column prop="ShortChar02" label="机床名称">
+											</el-table-column>
+											<el-table-column prop="ShortChar03" label="工单号">
+											</el-table-column>
+											<el-table-column prop="OrderDate" label="物料编码">
+											</el-table-column>
+											<el-table-column prop="Machine" label="物料描述">
+											</el-table-column>
+											<el-table-column prop="Qty" label="排产件数">
+											</el-table-column>
+											<el-table-column prop="PlanDate" label="单件标准工时">
+											</el-table-column>
+											<el-table-column prop="CompletePre" label="今日完成件数">
+											</el-table-column>
+											<el-table-column prop="CompleteState" label="操作员">
+											</el-table-column>
+										</el-table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		var vue = new Vue
+		new Vue({
+			el: "#app",
+			data: function() {
+				return {
+					timer: '',
+					datetime: '',
+					srollType: '',
+					table1: null,
+					table2: null,
+					table3: null,
+					table4: null,
+					table5: null,
+					fourBorder: true,
+					record1: [],
+					record2: [],
+					record5: [],
+					record4: [],
+					option: {},
+					loading: true,
+					dataText: "",
+					timer2: ''
+
+				}
+			},
+			// onUnload(){
+			// 	clearInterval(this.timer)
+			// 	console.log(this.timer,'this.timer')
+			// },
+			methods: {
+				showtime() {
+					var datetime = new Date()
+					var year = datetime.getFullYear();
+					var day = datetime.getDay();
+					var weeks = new Array(
+						"星期日",
+						"星期一",
+						"星期二",
+						"星期三",
+						"星期四",
+						"星期五",
+						"星期六"
+					);
+					var week = weeks[day];
+					var month = datetime.getMonth() + 1; //js从0开始取
+					var date = datetime.getDate();
+					var hour = datetime.getHours();
+					var m = datetime.getMinutes();
+					var s = datetime.getSeconds();
+					month = month < 10 ? "0" + month : month;
+					date = date < 10 ? "0" + date : date;
+					hour = hour < 10 ? "0" + hour : hour;
+					m = m < 10 ? "0" + m : m;
+					s = s < 10 ? "0" + s : s;
+					this.datetime = year + "-" + month + "-" + date + " " + week
+					console.log(this.datetime, 'this.datetime')
+					return year + "-" + month + "-" + date;
+					return week;
+
+				},
+				dianji() {
+					axios({
+						method: 'post',
+						url: 'http://192.168.110.236:809/KBAPI/GetKBManPlan?sDept=机加工',
+						headers: {
+							'Content-Type': 'Content-Type'
+						},
+					}).then(res => {
+						console.log(res.data, 'res')
+						this.record1 = JSON.parse(res.data)
+
+					}).catch(err => {
+						console.log(err)
+					})
+				},
+				dianji2() {
+					axios({
+						method: 'get',
+						url: 'http://192.168.110.236:809/KBAPI/Get_KBDayPlan?sDept=机加工',
+						headers: {
+							'Content-Type': 'Content-Type'
+						},
+					}).then(res => {
+						this.record2 = JSON.parse(res.data)
+
+
+					}).catch(err => {
+						console.log(err)
+					})
+				},
+				dianji3() {
+					axios({
+						method: 'post',
+						url: 'http://192.168.110.236:809/KBAPI/Get_KBManPlanQtySum?sDept=机加工',
+						headers: {
+							'Content-Type': 'Content-Type'
+						},
+					}).then(res => {
+						console.log('res.data', res.data)
+
+						this.record5 = JSON.parse(res.data)
+						// this.record5 = res.data
+						console.log(this.record5, 'this.record5aa')
+
+						this.record5 = this.record5.map(item => {
+							return {
+								name: item.CompleteState,
+								value: item.qty
+							}
+						});
+						console.log(this.record5, 'resthis.record5')
+						this.getEcharts()
+						this.getEcharts2()
+					}).catch(err => {
+						console.log(err)
+					})
+				},
+				dianji4() {
+					axios({
+						method: 'post',
+						url: 'http://192.168.110.236:809/KBAPI/Get_KBOutPlan?sDept=机加工',
+						headers: {
+							'Content-Type': 'Content-Type'
+						},
+					}).then(res => {
+
+						this.record4 = JSON.parse(res.data)
+						// console.log(res.data, 'res.data')
+					}).catch(err => {
+						console.log(err)
+					})
+				},
+				getDate() {
+					axios({
+						method: 'post',
+						url: 'http://192.168.110.236:809/KBAPI/GetKBJGDay',
+						headers: {
+							'Content-Type': 'Content-Type'
+						},
+					}).then(res => {
+				
+					
+						console.log(res.data, 'res.datadatedate')
+					}).catch(err => {
+						console.log(err)
+					})
+				},
+				
+				// blow1: function() {
+				// 	var element = document.getElementById("idBorder1");
+				// 	console.log(element)
+				// 	this.requestFullScreen(element);
+				// },
+				requestFullScreen(element) {
+					var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element
+						.mozRequestFullScreen || element.msRequestFullScreen;
+					if (requestMethod) {
+						requestMethod.call(element);
+					} else if (typeof window.ActiveXObject !== "undefined") {
+						var wscript = new ActiveXObject("WScript.Shell");
+						if (wscript !== null) {
+							wscript.SendKeys("{F11}");
+						}
+					}
+				},
+				srollBorder1() {
+					this.table1 = null
+					console.log(this.table1, 'this.table1')
+					const table12 = this.$refs.table12
+					// 拿到表格中承载数据的div元素
+					const divData = table12.bodyWrapper
+					// 拿到元素后，对元素进行定时增加距离顶部距离，实现滚动效果(此配置为每100毫秒移动1像素)
+					this.table1 = setInterval(() => {
+						// 元素自增距离顶部1像素
+						divData.scrollTop += 1
+						// 判断元素是否滚动到底部(可视高度+距离顶部=整个高度)
+
+						if (parseInt(divData.clientHeight + divData.scrollTop) === divData.scrollHeight) {
+							// 重置table距离顶部距离
+							divData.scrollTop = 0
+
+						}
+					}, 80)
+					console.log(this.table1, 'this.table1')
+				},
+				srollBorder2() {
+					const table2 = this.$refs.table2
+					// 拿到表格中承载数据的div元素
+					const divData = table2.bodyWrapper
+					// 拿到元素后，对元素进行定时增加距离顶部距离，实现滚动效果(此配置为每100毫秒移动1像素)
+					this.table2 = setInterval(() => {
+						// 元素自增距离顶部1像素
+						divData.scrollTop += 1
+						// 判断元素是否滚动到底部(可视高度+距离顶部=整个高度)
+						if (parseInt(divData.clientHeight + divData.scrollTop + 1) === divData.scrollHeight) {
+							// 重置table距离顶部距离
+							divData.scrollTop = 0
+
+						}
+					}, 80)
+				},
+				srollBorder3() {
+					const table3 = this.$refs.table3
+					// 拿到表格中承载数据的div元素
+					const divData = table3.bodyWrapper
+					// 拿到元素后，对元素进行定时增加距离顶部距离，实现滚动效果(此配置为每100毫秒移动1像素)
+					this.table3 = setInterval(() => {
+						// 元素自增距离顶部1像素
+						divData.scrollTop += 1
+						// 判断元素是否滚动到底部(可视高度+距离顶部=整个高度)
+						if (parseInt(divData.clientHeight + divData.scrollTop) === divData.scrollHeight) {
+							// 重置table距离顶部距离
+							divData.scrollTop = 0
+							// console.log('aqqqaa')
+						}
+					}, 80)
+				},
+				srollBorder4() {
+
+					const table4 = this.$refs.table4
+					// 拿到表格中承载数据的div元素
+					const divData = table4.bodyWrapper
+					// 拿到元素后，对元素进行定时增加距离顶部距离，实现滚动效果(此配置为每100毫秒移动1像素)
+					this.table4 = setInterval(() => {
+						// 元素自增距离顶部1像素
+						divData.scrollTop += 1
+						// 判断元素是否滚动到底部(可视高度+距离顶部=整个高度)
+						if (parseInt(divData.clientHeight + divData.scrollTop) === divData.scrollHeight) {
+							// 重置table距离顶部距离
+							divData.scrollTop = 0
+
+						}
+					}, 80)
+					console.log(this.table4, 'this.table4')
+				},
+				srollBorder5() {
+					const table5 = this.$refs.table5
+					// 拿到表格中承载数据的div元素
+					const divData = table5.bodyWrapper
+					// 拿到元素后，对元素进行定时增加距离顶部距离，实现滚动效果(此配置为每100毫秒移动1像素)
+					this.table5 = setInterval(() => {
+						// 元素自增距离顶部1像素
+						divData.scrollTop += 1
+						// 判断元素是否滚动到底部(可视高度+距离顶部=整个高度)
+						if (parseInt(divData.clientHeight + divData.scrollTop) === divData.scrollHeight) {
+							// 重置table距离顶部距离
+							divData.scrollTop = 0
+						}
+					}, 80)
+				},
+				indexMethod(index) {
+
+					return index + 1 * 1;
+				},
+				getEcharts() {
+					var myChart = echarts.init(document.getElementById('main'));
+					console.log('geye')
+					var option = {
+						color: [
+
+							'rgb(118, 218, 145)',
+							'rgb(248,149,163)',
+							'rgb(248, 203, 127)',
+							'#aaaaff',
+							'#ffaaff',
+						],
+						title: {
+							text: '加工任务达成率',
+							left: 'center',
+							textStyle: {
+								color: '#ffffff',
+								fontSize: '16'
+							},
+						},
+						tooltip: {
+							trigger: 'item'
+						},
+						legend: {
+							bottom: 30,
+							left: 'center',
+							textStyle: {
+								color: '#ffffff',
+							},
+						},
+						series: [{
+							name: '数量',
+							type: 'pie',
+							radius: '50%',
+							center: ['50%', '50%'],
+							label: {
+								show: true,
+								position: 'inner',
+								formatter: '{d}%',
+								textStyle: {
+									color: '#ffffff',
+								},
+							},
+							data: this.record5,
+							emphasis: {
+								itemStyle: {
+									shadowBlur: 10,
+									shadowOffsetX: 0,
+									shadowColor: 'rgba(0, 0, 0, 0.5)'
+								}
+							}
+						}]
+					};
+
+					// 使用刚指定的配置项和数据显示图表。
+					myChart.setOption(option);
+				},
+				getEcharts2() {
+					var myChart = echarts.init(document.getElementById('main2'));
+					console.log('geye')
+					var option = {
+						color: [
+
+
+							'rgb(118, 218, 145)',
+							'rgb(248,149,163)',
+							'rgb(248, 203, 127)',
+							'#aaaaff',
+							'#ffaaff',
+						],
+						title: {
+							text: '加工任务达成率',
+							left: 'center',
+							textStyle: {
+								color: '#ffffff',
+								fontSize: '16'
+							},
+						},
+						tooltip: {
+							trigger: 'item'
+						},
+						legend: {
+							bottom: 30,
+							left: 'center',
+							textStyle: {
+								color: '#ffffff',
+							},
+						},
+						series: [{
+							name: '数量',
+							type: 'pie',
+							radius: '50%',
+							center: ['50%', '50%'],
+							label: {
+								show: true,
+								position: 'inner',
+								formatter: '{d}%',
+								textStyle: {
+									color: '#ffffff',
+								},
+							},
+							data: this.record5,
+							emphasis: {
+								itemStyle: {
+									shadowBlur: 10,
+									shadowOffsetX: 0,
+									shadowColor: 'rgba(0, 0, 0, 0.5)'
+								}
+							}
+						}]
+					};
+
+					// 使用刚指定的配置项和数据显示图表。
+					myChart.setOption(option);
+				},
+				srollTime() {
+					this.timer = setTimeout(function() {
+
+						location.reload()
+
+					}, 14400000);
+
+
+				},
+			},
+
+			mounted() {
+				this.showtime()
+				this.srollBorder1()
+				this.srollBorder2()
+				this.srollBorder3()
+				this.srollBorder4()
+				this.srollBorder5()
+				this.dianji()
+				this.dianji2()
+				this.dianji3()
+				this.dianji4()
+				this.srollTime()
+				this.getDate()
+				setTimeout(() => {
+					this.loading = false;
+					console.log('ok')
+				}, 6000);
+				//获得slider插件对象
+				var gallery = mui('.mui-slider');
+				gallery.slider({
+					interval: 50000 //自动轮播周期，若为0则不自动播放，默认为0；
+				});
+			},
+
+			// 修复切换背景图时出现的“白色闪屏”现象
+			// let img = new Image();
+			// img.src = "./fonts/15.png";
+			// 确定图片加载完成后再进行背景图片切换
+			// img.onload = function () {
+			// 	document.body.style.backgroundImage = "url(" + img.src + ")";
+			// }
+
+
+			// computed:{
+			// 	'loadings':function(){
+			// 		const {this.record1!=''}{}
+			// 	}
+			// },
+
+			watch: {
+				'record1': function() {
+					if (this.record1 != '') {
+						console.log(this.record1, 'this.record1')
+						// this.loading=false
+					}
+				}
+				// 'srollType': function() {
+				// 	if (this.srollType == "所有表单拼接滚动播放") {
+				// 		this.fourBorder = false
+				// 	} else {
+				// 		this.fourBorder = true
+				// 	}
+				// }
+			}
+		})
+	</script>
+
+
+	<style scoped>
+		body {
+			font-size: 20rpx;
+			color: white;
+			/* 	background-image: '/fonts/22.png'; */
+
+			/* background-size: cover;
+			background-repeat: no-repeat; */
+		}
+
+		#id {
+			width: 100%;
+			height: 100%;
+		}
+
+		.header {
+			height: 6%;
+			width: 98%;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			margin-bottom: 1%;
+			background-color: transparent;
+
+		}
+
+		.logo {
+
+			width: 20px;
+		}
+
+		/* el-table表格去掉横线 */
+		.el-table__row>td {
+			border: none;
+			border-right: none;
+		}
+
+		.el-table::before {
+			height: 0px;
+			border: none;
+		}
+
+		/*最外层透明*/
+		.el-table,
+		.el-table__expanded-cell {
+			background-color: transparent;
+			border: none;
+
+		}
+
+		.el-table thead.is-group th {
+			background-color: transparent;
+			border: none;
+
+		}
+
+		/* 表格内背景颜色 */
+		.el-table th,
+		.el-table tr,
+		.el-table td {
+			background-color: transparent;
+			/* border: none; */
+
+		}
+
+		/* .el-table_1_column_1 {
+			font-size: 26px !important;
+			/* 	border: none; */
+		}
+
+		*/ .el-table th>.cell {
+			padding-top: 1%;
+
+		}
+
+		.outBorder {
+			border: none;
+			width: 100%;
+			height: 88%;
+			position: absolute;
+			/* left: 5px; */
+			top: 5%;
+		}
+
+		.inBorder {
+			width: 100%;
+			height: 100%;
+			/* justify-content: center;
+			float: left; */
+			border: none;
+		}
+
+		#border1 {}
+
+		.allBorder {
+			height: 88%;
+			display: flex;
+			position: absolute;
+			top: 10%;
+			width: 100%;
+
+		}
+
+		.leftBorder {
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			width: 27%;
+			margin-top: 5%;
+		}
+
+		.rightBorder {
+			margin-left: 2%;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			width: 65%;
+		}
+
+		/* 选中某行时的背景色*/
+		.el-table__body tr.current-row>td {
+			background-color: transparent !important;
+		}
+
+		/*鼠标移入某行时的背景色*/
+		.el-table--enable-row-hover .el-table__body tr:hover>td {
+			background-color: transparent !important;
+		}
+	</style>
+</html>
